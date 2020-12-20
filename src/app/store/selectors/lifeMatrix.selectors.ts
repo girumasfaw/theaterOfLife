@@ -3,7 +3,7 @@ import { IArea } from 'src/app/models/area.interface';
 import { IUIDate } from 'src/app/models/UIDate.interface';
 import { AppState } from '../state/app.state';
 import { selectUIDate } from './ui.selectors';
-import isWithinRange from 'date-fns/is_within_range';
+import isWithinInterval from 'date-fns/isWithinInterval';
 import { getISOWeek , getYear} from 'date-fns';
 import { IRole } from 'src/app/models/role.interface';
 import isEqual from 'date-fns/isEqual';
@@ -23,16 +23,18 @@ export const selectAreasInScope = createSelector(
   selectUIDate,
   (areas: IArea[], uiDate: IUIDate) => {
     return areas.filter((a) =>
-      isWithinRange(
+    isWithinInterval(
         getDateOfISOWeek(uiDate.cursorWeek, uiDate.cursorYear),
-        getDateOfISOWeek(
+        {start: getDateOfISOWeek(
           getISOWeek(new Date(a.metadata.period.start)),
           getYear(a.metadata.period.start)
         ),
-        getDateOfISOWeek(
+        end: getDateOfISOWeek(
           getISOWeek(new Date(a.metadata.period.end)),
           getYear(a.metadata.period.end)
         )
+        }
+
       )
     );
   }
@@ -45,16 +47,16 @@ export const selectRolesInScope = createSelector(
   selectUIDate,
   (areas: IArea[], uiDate: IUIDate, areaId: string) => {
     return areas.filter((a)=> a.metadata.id == areaId)[0].roles.filter((r:IRole)=>
-       isWithinRange(
+      isWithinInterval(
         getDateOfISOWeek(uiDate.cursorWeek, uiDate.cursorYear),
-        getDateOfISOWeek(
+        {start: getDateOfISOWeek(
           getISOWeek(new Date(r.metadata.period.start)),
           getYear(new Date(r.metadata.period.start))
         ),
-        getDateOfISOWeek(
+        end: getDateOfISOWeek(
           getISOWeek(new Date(r.metadata.period.end)),
           getYear(new Date(r.metadata.period.end))
-        )
+        )}
       )
     )
   }

@@ -33,7 +33,6 @@ export class AddAreaDialogComponent {
       },
       roles:[]
     }
-    console.log( newArea)
     this._store.dispatch(new AddArea(newArea))
   }
 

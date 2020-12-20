@@ -1,0 +1,46 @@
+.action{
+  padding: 1rem 0;
+  display: grid;
+  grid-template-columns: 35% repeat(7,1fr);
+  transition: all 0.3s ease-in-out;
+  &:hover{
+    background-color: antiquewhite;
+  }
+  &--first{
+    padding-left: 4rem;
+    display:flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  &--label{
+    width: 0.5rem;
+    height: 100%;
+    background-color: rgb(19, 153, 153);
+  }
+
+  &--avatar{
+    margin-left: 1rem;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(5, 70, 92);
+    border-radius: 50%;
+  }
+
+  &--content{
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    div{
+      display: flex;
+      align-items: center;
+      span{
+        width: 3.5rem;
+        color: grey;
+      }
+    }
+
+  }
+}

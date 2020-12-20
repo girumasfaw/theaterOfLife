@@ -1,0 +1,5 @@
+<div class="checker">
+  <span (click)="toggleChecker()" *ngIf="isActionable">
+     <mat-icon [ngClass]="{'isChecked': isChecked}">done</mat-icon>
+  </span>
+</div>

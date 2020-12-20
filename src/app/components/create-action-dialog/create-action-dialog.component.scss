@@ -1,0 +1,59 @@
+.form{
+  display: flex;
+  flex-direction: column;
+  max-width:400px;
+  max-height: 600px;
+
+  &__frequency{
+    span{
+      border: 1px solid lightgray;
+      padding: .2rem;
+      &.selected{
+        border-color: #3F51B5;
+        color: #3F51B5;
+      }
+
+    }
+  }
+
+  & .group{
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem;
+  }
+
+
+}
+
+.avatar{
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid lightgray;
+  border-radius: 50%;
+  cursor: pointer;
+  &.selected{
+    border-color: #3F51B5;
+    color: #3F51B5;
+  }
+
+}
+
+.option-btn{
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  mat-icon{
+    opacity: 0;
+    transition: all .1s ease-in-out;
+    &.isSelected{
+      opacity: 1;
+    }
+  }
+}

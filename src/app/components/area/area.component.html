@@ -1,0 +1,27 @@
+<div class="area" [ngClass]="{'collapse': isColappsed}">
+  <div class="area__header">
+      <div class="area__header--control">
+      <div class="area__header--control--first">
+        <button class="custom-btn" mat-stroked-button color="primary">
+          <mat-icon (click)="toggleCollapse()">{{isColappsed?'chevron_right':'expand_more'}}</mat-icon>
+        </button>
+        <div>
+          <h3>{{areaData.metadata.title}}</h3>
+          <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+        </div>
+      </div>
+         <div>
+           <button class="custom-btn" mat-stroked-button color="primary" (click)="openDialog()">
+             <mat-icon>add</mat-icon>
+          </button>
+         </div>
+      </div>
+  </div>
+    <div class="msg-empty" *ngIf="!(rolesInScope$ | async).length">
+      <h2>No Role to show in the selected date range.</h2>
+      <span>Add Role and Actions under this area.</span>
+  </div>
+  <ng-container *ngFor="let role of (rolesInScope$ | async), trackBy:roleTracker">
+      <app-action [areaId]="areaData.metadata.id" [roleData]="role"></app-action>
+  </ng-container>
+</div>

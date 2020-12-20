@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="container__title">
+    <span class="title">Theater of Life</span>
+  </div>
+  <div class="container__control">
+    <button mat-stroked-button color="primary" (click)="openDialog()">
+        <mat-icon>add</mat-icon>
+        Add A New Area
+    </button>
+    <div class="container__control--date">
+      <span class="year-lbl">{{(uiDate$ | async).cursorYear}}</span>
+      <button class="custom-btn" mat-stroked-button color="primary" (click)="decrementWeek()" [disabled]="isFirstWeek">
+        <mat-icon>chevron_left</mat-icon>
+     </button>
+     <span>Week {{(uiDate$ | async).cursorWeek}}</span>
+     <button class="custom-btn" mat-stroked-button color="primary" (click)="incrementWeek()" [disabled]="isLastWeek">
+        <mat-icon>chevron_right</mat-icon>
+     </button>
+    </div>
+  </div>
+  <div class="container__matrix">
+     <div class="matrix-header">
+        <span class="title">Areas</span>
+        <ng-container *ngFor="let day of days; let i = index">
+            <app-day [title]="day" [dayIndex]="i"></app-day>
+        </ng-container>
+
+     </div>
+     <div class="matrix-areas">
+         <div class="msg-empty" *ngIf="!(scopedAreas$ | async).length">
+            <h2>No area of life to show in the selected date range.</h2>
+         </div>
+
+         <ng-container *ngFor="let area of (scopedAreas$ | async); trackBy:areaTracker">
+              <app-area [areaData]="area"></app-area>
+         </ng-container>
+     </div>
+
+  </div>
+
+</div>

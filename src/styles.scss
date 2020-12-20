@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,400,700");
+@import url('https://fonts.googleapis.com/css?family=Quicksand&display=swap');
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+*{
+  margin: 0;
+  padding: 0;
+}
+
+html, body { height: 100%; }
+body { margin: 0; 	font-family: "Quicksand", sans-serif; }
+
+.custom-btn{
+  border: none !important;
+}
+
+.white-icon{
+  color: white;
+}
+
+.msg-empty{
+  display: flex;
+  flex-direction: column;
+  padding: 4rem;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f4f4;
+
+  h2{
+    font-weight: 300;
+  }
+}

@@ -1,0 +1,19 @@
+<div class="action">
+  <div  class="action--first">
+     <span class="action--label" [ngStyle]="{'background-color':'#'+roleData.labelColor}"></span>
+     <div  class="action--avatar">
+        <mat-icon>{{roleData.personaIcon}}</mat-icon>
+     </div>
+     <div  class="action--content">
+            <div>
+              <span>Role</span><h5>{{roleData.metadata.title}}</h5>
+            </div>
+            <div>
+              <span>Action</span><h5>{{roleData.action}}</h5>
+            </div>
+     </div>
+  </div>
+  <ng-container *ngFor="let d of daysOftheWeek">
+      <app-checker [dateIndex]="d" [areaId]="areaId" [roleId]="roleData.metadata.id" [isActionable]="checkActionable(d)"></app-checker>
+  </ng-container>
+</div>

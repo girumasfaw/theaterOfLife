@@ -8,7 +8,7 @@ import { getDateOfISOWeek, isActionCompleted } from 'src/app/store/selectors/lif
 import { selectUIDate } from 'src/app/store/selectors/ui.selectors';
 import { AppState } from 'src/app/store/state/app.state';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import isAfter from 'date-fns/is_after';
+import {isAfter} from 'date-fns';
 
 @Component({
   selector: 'app-checker',

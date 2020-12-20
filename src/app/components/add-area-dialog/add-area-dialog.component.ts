@@ -1,11 +1,11 @@
 import { Component, Inject, Injectable, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {FormGroup, FormControl} from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state/app.state';
 import { v4 as uuidv4 } from 'uuid';
 import { IArea } from 'src/app/models/area.interface';
 import { AddArea } from 'src/app/store/actions/lifeMatrix/lifeMatrix.actions';
+import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-area-dialog',
@@ -14,11 +14,16 @@ import { AddArea } from 'src/app/store/actions/lifeMatrix/lifeMatrix.actions';
 })
 export class AddAreaDialogComponent {
   areaTitle = '';
-  range = new FormGroup({
-    start: new FormControl(''),
-    end: new FormControl('')
-  });
-  constructor(private _store: Store<AppState>, public dialogRef: MatDialogRef<AddAreaDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
+  dateRangeForm: FormGroup;
+
+  constructor(private _store: Store<AppState>, public dialogRef: MatDialogRef<AddAreaDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any,private formBuilder: FormBuilder,) {}
+
+  ngOnInit(): void {
+    this.dateRangeForm = this.formBuilder.group({
+      start: new FormControl('', Validators.required),
+      end: new FormControl('', Validators.required)
+    });
+  }
 
   onConfirm(): void {
     this.dialogRef.close(true);
@@ -27,8 +32,8 @@ export class AddAreaDialogComponent {
         id: uuidv4(),
         title: this.areaTitle,
         period: {
-          start: this.range.value.start,
-          end: this.range.value.end
+          start: this.dateRangeForm.value.start,
+          end: this.dateRangeForm.value.end
         }
       },
       roles:[]

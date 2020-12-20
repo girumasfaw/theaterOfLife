@@ -1,11 +1,12 @@
 import { Component, Inject, Injectable, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {FormGroup, FormControl} from '@angular/forms';
+import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IRole } from 'src/app/models/role.interface';
 import { v4 as uuidv4 } from 'uuid';
 import { AddRole } from 'src/app/store/actions/lifeMatrix/lifeMatrix.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/state/app.state';
+
 
 @Component({
   selector: 'app-create-action-dialog',
@@ -30,20 +31,24 @@ export class CreateActionDialogComponent implements OnInit {
   selectedPersona = 'face'
   personas = ['face','social_distance','rowing','self_improvement','hot_tub','call', 'live_tv','speaker', 'menu_book', 'no_cell']
 
-  range = new FormGroup({
-    start: new FormControl(''),
-    end: new FormControl(''),
-  });
+  dateRangeForm: FormGroup;
 
   constructor(
     private _store: Store<AppState>,
     public dialogRef: MatDialogRef<CreateActionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private formBuilder: FormBuilder,
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dateRangeForm = this.formBuilder.group({
+      start: new FormControl('', Validators.required),
+      end: new FormControl('', Validators.required)
+    });
+  }
 
   onConfirm(): void {
+
     this.dialogRef.close(true);
     let newRole: IRole = {
       action: this.action,
@@ -54,8 +59,8 @@ export class CreateActionDialogComponent implements OnInit {
         id: uuidv4(),
         title: this.role,
         period:{
-          start: this.range.value.start,
-          end: this.range.value.end
+          start: this.dateRangeForm.value.start,
+          end: this.dateRangeForm.value.end
         }
       },
       completedDates:[]
@@ -65,7 +70,6 @@ export class CreateActionDialogComponent implements OnInit {
 
   onDismiss(): void {
     this.dialogRef.close(false);
-    console.log(this.data)
   }
 
   isDaySelected(val:number): boolean{

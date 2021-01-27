@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { addDays, getDate, getMonth, getYear, isEqual } from 'date-fns';
+import { addDays, getDate, getDay, getMonth, getYear, isEqual } from 'date-fns';
 import { IUIDate } from 'src/app/models/UIDate.interface';
 import { getDateOfISOWeek } from 'src/app/store/selectors/lifeMatrix.selectors';
 import { selectUIDate } from 'src/app/store/selectors/ui.selectors';
@@ -27,7 +27,7 @@ export class DayComponent implements OnInit {
        let currentDay = addDays(getDateOfISOWeek(uiDate.cursorWeek,uiDate.cursorYear), this.dayIndex)
        this.month = getMonth(new Date(currentDay)) + 1;
        this.day = getDate(new Date(currentDay));
-       this.isToday = isEqual(this.day, getDate( new Date(uiDate.today)))
+       this.isToday = isEqual(currentDay, uiDate.today)
        this.isNotInCursorYear = getYear(currentDay) != getYear(uiDate.today);
     })
   }

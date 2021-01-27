@@ -37,6 +37,44 @@ export const UIReducer = (
         }
       }
     }
+    case EUIActions.SetWeek:{
+      return{
+        ...state,
+        uiDate: {
+          ...state.uiDate,
+          cursorWeek: action.payload,
+        }
+      }
+    }
+
+    case EUIActions.IncrementYear:{
+      return{
+        ...state,
+        uiDate: {
+          ...state.uiDate,
+          cursorYear: state.uiDate.cursorYear + 1,
+        }
+      }
+    }
+    case EUIActions.DecrementYear:{
+      return{
+        ...state,
+        uiDate: {
+          ...state.uiDate,
+          cursorYear: state.uiDate.cursorYear - 1,
+        }
+      }
+    }
+
+    case EUIActions.SetYear:{
+      return{
+        ...state,
+        uiDate: {
+          ...state.uiDate,
+          cursorYear: action.payload,
+        }
+      }
+    }
     default:
       return state;
   }

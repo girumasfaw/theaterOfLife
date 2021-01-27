@@ -5,7 +5,11 @@ export enum EUIActions {
     SetLoading = '[UI] Set Loading',
     SetUIDate = '[UI] set UI date',
     IncrementWeek = '[UI] Increment week',
-    DecrementWeek = '[UI] Decrement week'
+    DecrementWeek = '[UI] Decrement week',
+    SetWeek = '[UI] Set Week',
+    IncrementYear = '[UI] Increment Year',
+    DecrementYear = '[UI] Decrement Year',
+    SetYear = '[UI] Set Year'
 }
 
 export class SetLoading implements Action {
@@ -28,4 +32,24 @@ export class DecrementWeek implements Action{
   constructor() {}
 }
 
-export type UIActions = SetLoading | SetUIDate | IncrementWeek | DecrementWeek;
+export class SetWeek implements Action{
+  public readonly type = EUIActions.SetWeek;
+  constructor(public payload: number) {}
+}
+
+export class IncrementYear implements Action{
+  public readonly type = EUIActions.IncrementYear;
+  constructor() {}
+}
+
+export class DecrementYear implements Action{
+  public readonly type = EUIActions.DecrementYear;
+  constructor() {}
+}
+
+export class SetYear implements Action{
+  public readonly type = EUIActions.SetYear;
+  constructor(public payload: number) {}
+}
+
+export type UIActions = SetLoading | SetUIDate | IncrementWeek | DecrementWeek | SetWeek | IncrementYear | DecrementYear | SetYear ;

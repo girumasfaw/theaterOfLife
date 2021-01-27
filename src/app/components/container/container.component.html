@@ -8,12 +8,18 @@
         Add A New Area
     </button>
     <div class="container__control--date">
+      <button class="custom-btn" mat-stroked-button color="primary" (click)="decrementYear()" [disabled]="(uiDate$ | async).cursorYear == 0">
+        <mat-icon>chevron_left</mat-icon>
+     </button>
       <span class="year-lbl">{{(uiDate$ | async).cursorYear}}</span>
-      <button class="custom-btn" mat-stroked-button color="primary" (click)="decrementWeek()" [disabled]="isFirstWeek">
+      <button class="custom-btn" mat-stroked-button color="primary" (click)="incrementYear()" [disabled]="(uiDate$ | async).cursorYear == 3000">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+      <button class="custom-btn" mat-stroked-button color="primary" (click)="decrementWeek()">
         <mat-icon>chevron_left</mat-icon>
      </button>
      <span>Week {{(uiDate$ | async).cursorWeek}}</span>
-     <button class="custom-btn" mat-stroked-button color="primary" (click)="incrementWeek()" [disabled]="isLastWeek">
+     <button class="custom-btn" mat-stroked-button color="primary" (click)="incrementWeek()">
         <mat-icon>chevron_right</mat-icon>
      </button>
     </div>

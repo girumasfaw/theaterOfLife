@@ -7,7 +7,7 @@ import { selectAreas, selectAreasInScope } from 'src/app/store/selectors/lifeMat
 import { AppState } from 'src/app/store/state/app.state';
 import { AddAreaDialogComponent } from '../add-area-dialog/add-area-dialog.component';
 import {getISOWeeksInYear, getWeek, getYear, getISOWeek} from 'date-fns'
-import { DecrementWeek, IncrementWeek, SetUIDate } from 'src/app/store/actions/ui/ui.actions';
+import { DecrementWeek, IncrementWeek, SetUIDate , IncrementYear, SetWeek, DecrementYear} from 'src/app/store/actions/ui/ui.actions';
 import { IUIDate } from 'src/app/models/UIDate.interface';
 import { selectUIDate } from 'src/app/store/selectors/ui.selectors';
 import { FormControl } from '@angular/forms';
@@ -26,8 +26,10 @@ export class ContainerComponent implements OnInit {
   uiDate$: Observable<IUIDate>;
   isFirstWeek: boolean;
   isLastWeek: boolean;
+  totalWeekInYear: number;
   defaultDaysTxt = ['Monday', 'Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
   days = this.defaultDaysTxt;
+  _cursorYear: number;
 
 
 
@@ -43,13 +45,17 @@ export class ContainerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._store.dispatch(new SetUIDate({cursorWeek:getISOWeek(new Date()),cursorYear:getYear(new Date()), today: new Date()}));
+    let today = new Date()
+    today.setHours(0,0,0,0)
+    this._store.dispatch(new SetUIDate({cursorWeek:getISOWeek(new Date()),cursorYear:getYear(new Date()), today: today}));
     this.areas$ = this._store.pipe(select(selectAreas));
     this.scopedAreas$ = this._store.pipe(select(selectAreasInScope));
     this.uiDate$ = this._store.pipe(select(selectUIDate));
     this.uiDate$.subscribe((uiDate)=>{
+      this.totalWeekInYear = getISOWeeksInYear(new Date(uiDate.cursorYear,1,1));
+      this._cursorYear = uiDate.cursorYear
       this.isFirstWeek = uiDate.cursorWeek == 1;
-      this.isLastWeek = uiDate.cursorWeek == getISOWeeksInYear(new Date(uiDate.cursorYear))
+      this.isLastWeek = uiDate.cursorWeek ==  this.totalWeekInYear;
     });
 
      this.observer.observe('(max-width: 950px)').subscribe(result => {
@@ -66,12 +72,31 @@ export class ContainerComponent implements OnInit {
   }
 
   incrementWeek(){
-     this._store.dispatch(new IncrementWeek());
+    if(this.isLastWeek){
+      this._store.dispatch(new IncrementYear())
+      this._store.dispatch(new SetWeek(1))
+    }else{
+      this._store.dispatch(new IncrementWeek());
+    }
   }
 
   decrementWeek(){
-    this._store.dispatch(new DecrementWeek());
+    if(this.isFirstWeek){
+      this._store.dispatch(new DecrementYear())
+      this._store.dispatch(new SetWeek(this.totalWeekInYear))
+    }else{
+      this._store.dispatch(new DecrementWeek());
+    }
   }
+
+  incrementYear(){
+     this._store.dispatch(new IncrementYear())
+  }
+  decrementYear(){
+    this._store.dispatch(new DecrementYear())
+  }
+
+
 
   areaTracker(index: number, areaItem: IArea) {
     return  JSON.stringify({id: areaItem.metadata.id, roles: areaItem.roles})
